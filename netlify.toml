@@ -1,0 +1,18 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# The staging API's CORS allowlist only permits http://localhost:3000, so the
+# deployed site can't call it directly from the browser. Proxy /api/* through
+# Netlify's edge instead — that request is server-to-server and isn't subject
+# to browser CORS at all, then SPA routes fall through to index.html.
+[[redirects]]
+  from = "/api/*"
+  to = "https://admin-moderator-backend-staging.up.railway.app/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
